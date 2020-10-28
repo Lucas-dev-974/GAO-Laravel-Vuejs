@@ -2110,9 +2110,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _AddAttribution_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./AddAttribution.vue */ "./resources/js/gao/componants/AddAttribution.vue");
+/* harmony import */ var _AddAttribution_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./AddAttribution.vue */ "./resources/js/gao/componants/AddAttribution.vue");
+/* harmony import */ var _RemoveAttribution_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./RemoveAttribution.vue */ "./resources/js/gao/componants/RemoveAttribution.vue");
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -2130,7 +2129,8 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   components: {
-    AddAttribution: _AddAttribution_vue__WEBPACK_IMPORTED_MODULE_1__["default"]
+    AddAttribution: _AddAttribution_vue__WEBPACK_IMPORTED_MODULE_0__["default"],
+    RemoveAttribution: _RemoveAttribution_vue__WEBPACK_IMPORTED_MODULE_1__["default"]
   },
   data: function data() {
     return {
@@ -2148,6 +2148,7 @@ __webpack_require__.r(__webpack_exports__);
 
       this.ordinateur.attributions.forEach(function (attribution) {
         _this.attributions[attribution.horaire] = {
+          id: attribution.id,
           name: attribution.client.name,
           firstname: attribution.client.firstname
         };
@@ -2167,6 +2168,63 @@ __webpack_require__.r(__webpack_exports__);
     addAttribution: function addAttribution(attribution) {
       this.ordinateur.attributions.push(attribution);
       this.initialise();
+    },
+    removeAttribution: function removeAttribution(horaire) {
+      _.unset(this.attributions, horaire);
+
+      this.buildHoraires();
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./resources/js/gao/componants/removeAttribution.js?vue&type=script&lang=js&":
+/*!*****************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./resources/js/gao/componants/removeAttribution.js?vue&type=script&lang=js& ***!
+  \*****************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_1__);
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  props: {
+    ordinateur: {
+      required: true
+    },
+    horaire: {
+      required: true
+    },
+    attribution: {
+      required: true
+    }
+  },
+  data: function data() {
+    return {
+      dialog: false
+    };
+  },
+  methods: {
+    supprimer: function supprimer() {
+      var _this = this;
+
+      axios__WEBPACK_IMPORTED_MODULE_0___default.a["delete"]('/api/attributions/' + this.attribution.id).then(function (_ref) {
+        var data = _ref.data;
+
+        _this.$emit('removeAttribution', _this.horaire);
+
+        _this.dialog = false;
+      })["catch"](function (error) {
+        //TODO catch error
+        console.log(error);
+      });
     }
   }
 });
@@ -20915,16 +20973,14 @@ var render = function() {
                 { attrs: { cols: "2" } },
                 [
                   horaire.attribution
-                    ? _c(
-                        "v-btn",
-                        { attrs: { icon: "" } },
-                        [
-                          _c("v-icon", { attrs: { color: "red", small: "" } }, [
-                            _vm._v("mdi-minus")
-                          ])
-                        ],
-                        1
-                      )
+                    ? _c("RemoveAttribution", {
+                        attrs: {
+                          ordinateur: _vm.ordinateur,
+                          attribution: horaire.attribution,
+                          horaire: horaire.index
+                        },
+                        on: { removeAttribution: _vm.removeAttribution }
+                      })
                     : _vm._e(),
                   _vm._v(" "),
                   !horaire.attribution
@@ -20944,6 +21000,136 @@ var render = function() {
             1
           )
         }),
+        1
+      )
+    ],
+    1
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/gao/componants/RemoveAttribution.vue?vue&type=template&id=6582e17e&":
+/*!************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/gao/componants/RemoveAttribution.vue?vue&type=template&id=6582e17e& ***!
+  \************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "v-dialog",
+    {
+      attrs: { "max-width": "600px" },
+      scopedSlots: _vm._u([
+        {
+          key: "activator",
+          fn: function(ref) {
+            var on = ref.on
+            return [
+              _c(
+                "v-btn",
+                _vm._g({ attrs: { icon: "" } }, on),
+                [
+                  _c("v-icon", { attrs: { color: "red", small: "" } }, [
+                    _vm._v("mdi-minus")
+                  ])
+                ],
+                1
+              )
+            ]
+          }
+        }
+      ]),
+      model: {
+        value: _vm.dialog,
+        callback: function($$v) {
+          _vm.dialog = $$v
+        },
+        expression: "dialog"
+      }
+    },
+    [
+      _vm._v(" "),
+      _c(
+        "v-card",
+        [
+          _c("v-card-title", [
+            _vm._v(
+              "\n            " +
+                _vm._s(_vm.ordinateur.name) +
+                " : Suppression d'une attribution pour\n            " +
+                _vm._s(_vm.horaire) +
+                "h\n        "
+            )
+          ]),
+          _vm._v(" "),
+          _c(
+            "v-card-text",
+            [
+              _c("v-container", [
+                _c("span", [
+                  _vm._v(
+                    "\n                    Souhaitez vous supprimer l'attribution de l'ordinateur\n                    " +
+                      _vm._s(_vm.ordinateur.name) +
+                      " à " +
+                      _vm._s(_vm.attribution.name) +
+                      "\n                    " +
+                      _vm._s(_vm.attribution.firstname) +
+                      " à " +
+                      _vm._s(_vm.horaire) +
+                      "h ?\n                "
+                  )
+                ])
+              ])
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c("v-divider"),
+          _vm._v(" "),
+          _c(
+            "v-card-actions",
+            [
+              _c("v-spacer"),
+              _vm._v(" "),
+              _c(
+                "v-btn",
+                {
+                  attrs: { outlined: "", text: "" },
+                  on: {
+                    click: function($event) {
+                      _vm.dialog = false
+                    }
+                  }
+                },
+                [_vm._v("Non")]
+              ),
+              _vm._v(" "),
+              _c(
+                "v-btn",
+                {
+                  staticClass: "mr-2",
+                  attrs: { outlined: "", color: "red" },
+                  on: { click: _vm.supprimer }
+                },
+                [_vm._v("Supprimer")]
+              )
+            ],
+            1
+          )
+        ],
         1
       )
     ],
@@ -80418,6 +80604,61 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/gao/componants/RemoveAttribution.vue":
+/*!***********************************************************!*\
+  !*** ./resources/js/gao/componants/RemoveAttribution.vue ***!
+  \***********************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _RemoveAttribution_vue_vue_type_template_id_6582e17e___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./RemoveAttribution.vue?vue&type=template&id=6582e17e& */ "./resources/js/gao/componants/RemoveAttribution.vue?vue&type=template&id=6582e17e&");
+/* harmony import */ var _removeAttribution_js_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./removeAttribution.js?vue&type=script&lang=js& */ "./resources/js/gao/componants/removeAttribution.js?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _removeAttribution_js_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _RemoveAttribution_vue_vue_type_template_id_6582e17e___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _RemoveAttribution_vue_vue_type_template_id_6582e17e___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/gao/componants/RemoveAttribution.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/gao/componants/RemoveAttribution.vue?vue&type=template&id=6582e17e&":
+/*!******************************************************************************************!*\
+  !*** ./resources/js/gao/componants/RemoveAttribution.vue?vue&type=template&id=6582e17e& ***!
+  \******************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_RemoveAttribution_vue_vue_type_template_id_6582e17e___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./RemoveAttribution.vue?vue&type=template&id=6582e17e& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/gao/componants/RemoveAttribution.vue?vue&type=template&id=6582e17e&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_RemoveAttribution_vue_vue_type_template_id_6582e17e___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_RemoveAttribution_vue_vue_type_template_id_6582e17e___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
 /***/ "./resources/js/gao/componants/addAttribution.js?vue&type=script&lang=js&":
 /*!********************************************************************************!*\
   !*** ./resources/js/gao/componants/addAttribution.js?vue&type=script&lang=js& ***!
@@ -80457,6 +80698,20 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_ordinateur_js_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!./ordinateur.js?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./resources/js/gao/componants/ordinateur.js?vue&type=script&lang=js&");
 /* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_ordinateur_js_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/gao/componants/removeAttribution.js?vue&type=script&lang=js&":
+/*!***********************************************************************************!*\
+  !*** ./resources/js/gao/componants/removeAttribution.js?vue&type=script&lang=js& ***!
+  \***********************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_removeAttribution_js_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!./removeAttribution.js?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./resources/js/gao/componants/removeAttribution.js?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_removeAttribution_js_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
 
 /***/ }),
 

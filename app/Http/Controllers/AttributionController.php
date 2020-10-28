@@ -13,6 +13,14 @@ class AttributionController extends Controller
 {
     //
 
+    function remove(Request $request,$id){
+        
+        $attribution = AttributionModel::where('id', $id)
+            ->delete();
+
+        return $attribution;
+    }
+
     function add(Request $request)
     {
         $data = Validator::make(

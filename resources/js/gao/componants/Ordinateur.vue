@@ -12,10 +12,9 @@
                 </span>
             </v-col>
             <v-col cols="2">
-                <v-btn v-if="horaire.attribution" icon>
-                    <v-icon color="red" small>mdi-minus</v-icon>
-                </v-btn>
-                <AddAttribution v-if="!horaire.attribution" :ordinateur="ordinateur" @addAttribution='addAttribution' :horaire="horaire.index" :date="date" />
+                <RemoveAttribution v-if="horaire.attribution" :ordinateur="ordinateur" :attribution="horaire.attribution" :horaire="horaire.index" @removeAttribution="removeAttribution" />
+
+                <AddAttribution v-if="!horaire.attribution" :ordinateur="ordinateur" :horaire="horaire.index" :date="date" @addAttribution="addAttribution" />
             </v-col>
         </v-row>
     </v-card-text>

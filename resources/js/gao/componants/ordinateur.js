@@ -1,5 +1,5 @@
-import axios from 'axios';
 import AddAttribution from './AddAttribution.vue'
+import RemoveAttribution from './RemoveAttribution.vue'
 export default {
     props: {
         ordinateur: {
@@ -15,7 +15,8 @@ export default {
         }
     },
     components: {
-        AddAttribution
+        AddAttribution,
+        RemoveAttribution
     },
     data() {
         return {
@@ -37,6 +38,7 @@ export default {
 
             this.ordinateur.attributions.forEach(attribution => {
                 this.attributions[attribution.horaire] = {
+                    id:attribution.id,
                     name: attribution.client.name,
                     firstname: attribution.client.firstname
                 };
@@ -59,6 +61,10 @@ export default {
         addAttribution: function (attribution) {
             this.ordinateur.attributions.push(attribution)
             this.initialise();
+        },
+        removeAttribution: function(horaire){
+            _.unset(this.attributions,horaire)
+            this.buildHoraires();
         }
     },
 }

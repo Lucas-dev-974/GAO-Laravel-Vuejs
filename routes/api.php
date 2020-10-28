@@ -29,4 +29,5 @@ Route::prefix('clients')->group(function () {
 
 Route::prefix('attributions')->group(function () {
     Route::post('/', 'AttributionController@add');
+    Route::delete('/{id}', 'AttributionController@remove')->where('id', "[0-9]+");
 });
